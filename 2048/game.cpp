@@ -4,7 +4,7 @@
 int main()
 {
     mygame a;
-	a.game_start(5,1);
-	a.game_getch();
+	a.game_start(5);//说明：创建一个n*n大小的矩阵，默认一次出现一个新的数
+	a.game_getch();//说明：开始监听键盘，Esc键终止当前游戏或退出程序。
 }
 

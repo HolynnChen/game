@@ -6,6 +6,7 @@
 #include <random>
 #include <ctime>
 #include <conio.h>
+#include <string>
 using namespace std;
 
 class mygame {
@@ -30,7 +31,7 @@ private:
 	int ar_i[2] = {1,0}, ar_j[2] = { 0,1 };//储存基向量i,j
 	int ar_s[2] = {0,0};//储存初始阅读点
 	int game_continue = true;//保持进行
-	int game_score = 0;//分数
+	int game_score = 1;//分数
 };
 
 mygame::mygame() {
@@ -138,7 +139,7 @@ void mygame::game_sort() {
 	//这里开始推移
 	for (int i = 0; i < game_max; i++) {//这里是y轴
 		int last = 0;//最后搜寻位
-		for (int j = 0; j < game_max - 1; j++) {//这里是x轴
+		for (int j = 0; j < game_max-1; j++) {//这里是x轴
 			if (game_getnumber(game, game_max - 1 - j, i) == 0) {
 				if (j > last) last = j;
 				while (last < game_max) {
@@ -147,6 +148,7 @@ void mygame::game_sort() {
 						if (game_getnumber(game, game_max - 1 - last, i) != 0) {
 							game_setnumber(game, game_max - 1 - j, i, game_getnumber(game, game_max - 1 - last, i));
 							game_setnumber(game, game_max - 1 - last, i, 0);
+							break;
 						}
 					}
 					else { goto llo; }
@@ -186,13 +188,34 @@ bool mygame::game_randomadd(int n) {
 
 void mygame::game_printgame() {
 	system("cls");
+	int oi = 0,io=game_score,io2,io3,oi1=0;
+	while (io != 0)
+	{
+		oi++;
+		io = io / 10; 
+	}
 	for (int i = 0; i < game_max; i++)
 	{
-		for (int j = 0; j < game_max; j++) {
-			cout << game_getnumber(game, i,j)<<" ";
+		for (int j = 0; j < game_max; j++){
+			oi1 = 0;
+			io2 = game_getnumber(game, i, j);
+			io3 = io2;
+			io2=io2+1;
+			while (io2 != 0)
+			{
+				oi1++; 
+				io2 = io2 / 10;
+			}
+			cout << io3;
+			for (int i = 0; i < oi-oi1+1; i++)
+			{
+				cout << " ";
+			}
+			//if (oi - oi1 + 1 <1) { cout << "!!" << oi << "!" << oi1 << "!!"; system("pause"); };
 		}
-	cout << endl;
+		cout << endl;
 	}
+
 }
 
 void mygame::game_getch() {
@@ -221,14 +244,18 @@ void mygame::game_getch() {
 			break;
 		}
 	}
+	game_continue = false;
 	cout << "按Q可进行下一局，按ESC可退出程序" << endl;
 	while ((ch = _getch()) != 0x1B) /* Press ESC to quit... */
 	{
 		switch (ch)
 		{
-		case 113:  game_start(game_max,game_onceoccur); break;
+		case 113: goto hhto; break;
 		default:
 			break;
 		}
 	}
+	return;
+	//next
+hhto: system("cls"); game_continue = true; game_start(game_max, game_onceoccur); game_getch();
 }
