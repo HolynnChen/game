@@ -46,6 +46,7 @@ mygame::mygame() {
 }
 
 void mygame::game_start(int n, int once) {
+	game_score = 1;
 	game_onceoccur = once;
 	vector<vector<int> > array(n);
 	for (int i = 0; i < n; i++)
